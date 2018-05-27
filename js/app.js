@@ -3,6 +3,22 @@
  */
 
 
+
+
+//fom Mike Wales guide https://www.youtube.com/watch?v=_rUH-sEs68Y
+let cards = ['fa fa-diamond', 'fa fa-diamond',
+    'fa fa-paper-plane-o', 'fa fa-paper-plane-o',
+    'fa fa-anchor', 'fa fa-anchor',
+    'fa fa-bolt', 'fa fa-bolt',
+    'fa fa-cube', 'fa fa-cube',
+    'fa fa-leaf', 'fa fa-leaf',
+    'fa fa-bicycle', 'fa fa-bicycle',
+    'fa fa-bomb', 'fa fa-bomb'
+];
+
+function createCard(card) {
+    return `<li class="card" data-card="${card}"><i class="fa ${card}"></i></li>`;
+}
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -26,6 +42,56 @@ function shuffle(array) {
 }
 
 
+
+function initGame() {
+    let deck = document.querySelector('.deck');
+    let cardHTML = shuffle(cards).map(function (card) {
+        return createCard(card);
+    });
+    deck.innerHTML = cardHTML.join('');
+}
+
+initGame();
+
+
+let allCards = document.querySelectorAll('.card');
+let openCards = [];
+
+allCards.forEach(function (card) {
+    card.addEventListener('click', function (e) {
+        if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
+            openCards.push(card);
+            card.classList.add('open', 'show');
+
+
+            if (openCards.length == 2) {
+                if (openCards[0].dataset.card == openCards[1].dataset.card) {
+                    openCards[0].classList.add('match');
+                    openCards[0].classList.add('open');
+                    openCards[0].classList.add('show');
+
+                    openCards[1].classList.add('match');
+                    openCards[1].classList.add('open');
+                    openCards[1].classList.add('show');
+
+                    openCards = [];
+                } else {
+
+                    //if no match, hide
+                    setTimeout(function () {
+                        openCards.forEach(function (card) {
+                            card.classList.remove('open', 'show');
+                        });
+                        openCards = [];
+                    }, 300);
+                }
+            };
+        }
+    });
+});
+
+
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -36,3 +102,16 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
+
+
+
+
+
+
+
+
+
+
+
